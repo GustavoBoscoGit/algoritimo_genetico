@@ -1,3 +1,4 @@
+from select import select
 import numpy as np
 
 import ga
@@ -25,6 +26,14 @@ def main():
         fitness = ga.fitness(equation_inputs, population)
         print("Fitness")
         print(fitness)
+        
+        select_parents = ga.selection(population, fitness, num_parents_crossover)
+        print("Genitores selecionados")
+        print(select_parents)
+        
+        offsprint_crossover = ga.crossover(select_parents, (solutions_per_population - num_parents_crossover, num_weights))
+        print("Filhos gerados por crossover")
+        print(offsprint_crossover)
         
     
 if __name__ == "__main__":
