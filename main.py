@@ -27,14 +27,32 @@ def main():
         print("Fitness")
         print(fitness)
         
-        select_parents = ga.selection(population, fitness, num_parents_crossover)
+        selected_parents = ga.selection(population, fitness, num_parents_crossover)
         print("Genitores selecionados")
-        print(select_parents)
+        print(selected_parents)
         
-        offsprint_crossover = ga.crossover(select_parents, (solutions_per_population - num_parents_crossover, num_weights))
+        offspring_crossover = ga.crossover(selected_parents, (solutions_per_population - num_parents_crossover, num_weights))
         print("Filhos gerados por crossover")
-        print(offsprint_crossover)
+        print(offspring_crossover)
         
+        offspring_mutation = ga.mutation(offspring_crossover)
+        print("\nFilhos pós mutação")
+        print(offspring_mutation)
+        
+        population[0:selected_parents.shape[0], :] = selected_parents
+        
+        population[selected_parents.shape[0]:,:] = offspring_mutation
+        
+        print("\nNova população")
+        print(population)
+        
+        print("Melhor resultado: ", np.max(ga.fitness(equation_inputs, population)))
+        
+        fitness = ga.fitness(equation_inputs, population)
+        best_fit_idx = np.where(fitness == np.max(fitness))
+        
+        print('Melhor fitness: ', population[best_fit_idx, :])
+        print("fitness do melhor: ", fitness[best_fit_idx])
     
 if __name__ == "__main__":
     main()
