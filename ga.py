@@ -1,3 +1,4 @@
+from random import random
 import sys
 import numpy as np
 
@@ -30,5 +31,14 @@ def crossover(parents, generation_size):
         
         
         offspring[idx, crossover_point:] = parents[p2_idx, crossover_point:]
+        
+    return offspring
+
+def mutation(offspring):
+    for idx in range(offspring.shape[0]):
+        random_value = np.random.uniform(-1.0, 1.0, 1)
+        random_idx = np.random.randint(offspring.shape[1])
+        
+        offspring[idx, random_idx] = offspring[idx, random_idx] + random_value
         
     return offspring
